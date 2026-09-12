@@ -42,35 +42,64 @@ def tourist_score_0_100 (lat, lon, poi_df, sigma_km=1.5, weight_col="weight"):
 # ---------------------------------------------------
 # Mapa de calor del atractivo turístico en Madrid
 # ---------------------------------------------------
-def tourist_score_map(df, output_html="tourist_score_map.html"):
+def create_heatmap(
+    heat_data,
+    output_html,
+    center,
+    zoom_start=11,
+    radius=8,
+    blur=15,
+    max_zoom=1,
+    min_opacity=0.4,
+    max_opacity=0.8,
+    gradient={0.2: "blue", 0.5: "lime", 0.8: "red"},
+):
     """
-    Genera y guarda un mapa de calor de atractivo turístico en Madrid.
-    df: DataFrame con columnas 'latitude', 'longitude', 'tourist_score'.
-    output_html: nombre del archivo HTML de salida.
+    Generates and saves a Folium heatmap in docs/maps.
+
+    Parameters
+    ----------
+    heat_data : list
+        List of [latitude, longitude, weight] values.
+
+    output_html : str
+        Output HTML filename.
+
+    center : list
+        Initial map coordinates as [latitude, longitude].
     """
+
     import folium
     from folium.plugins import HeatMap
+    from pathlib import Path
 
-    madrid_coords = [40.4168, -3.7038]
-    m = folium.Map(location=madrid_coords, zoom_start=12)
+    output_path = Path("../docs/maps") / output_html
 
-    heat_data = (
-    df[["latitude", "longitude", "tourist_score"]]
-    .dropna()
-    .values
-    .tolist()
-)
-    HeatMap(
-        heat_data,
-        radius=12,
-        blur=15,
-        min_opacity=0.4,
-        max_opacity=0.8,
-        gradient={0.2: "blue", 0.5: "lime", 0.8: "red"},
+    m = folium.Map(
+        location=center,
+        zoom_start=zoom_start,
+        tiles=None
+    )
+
+    folium.TileLayer(
+        tiles="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
+        attr="© OpenStreetMap contributors, Tiles style by OpenStreetMap France",
+        name="OpenStreetMap France",
+        max_zoom=20
     ).add_to(m)
 
-    m.save(output_html)
-    return output_html
+    HeatMap(
+        heat_data,
+        radius=radius,
+        blur=blur,
+        max_zoom=max_zoom,
+        min_opacity=min_opacity,
+        max_opacity=max_opacity,
+        gradient=gradient,
+    ).add_to(m)
+
+    m.save(output_path)
+    return output_path
 
 #Estandarización de variables al importar
 import unicodedata
