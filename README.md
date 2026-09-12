@@ -78,67 +78,106 @@ The tourist score function is available in `src/preprocessing.py` as `tourist_sc
 ## Repository Structure
 
 ```text
-├── data/
-│   ├── raw/
-│   │   └── mercado_inmobiliario.db
-│   ├── intermediate/
-│   └── processed/
-│
-├── notebooks/
-├── reports/
-│   ├── graphics/
-│   └── maps/
-├── src/
-└── README.md
+data/
+├── raw/
+notebooks/
+reports/
+├── graphics/
+docs/
+├── maps/
+src/
+README.md
+requirements.txt
 ```
+`docs/` contains the GitHub Pages site and interactive maps.
+The SQLite database used during the analysis is not included in the repository due to its file size (~78 MB). The repository contains the main raw CSV sources used in the analysis.
 
 ## Exploratory Data Analysis Findings
 
-### General Gross Margin Analysis (overview)
+### General Gross Margin Analysis
+
+**Insight 1 - Centro Offers the Strongest Overall Investment Profile**
 
 The analysis shows that the strongest investment opportunities are concentrated around **Entire home/apt properties**, particularly those with **2 bedrooms and capacity for 4+ guests**.
 
-At district level, the best opportunities depend on the balance between gross margin, tourism attractiveness and acquisition cost:
+At the district level, the best opportunities depend on the balance between gross margin, tourism attractiveness and acquisition cost:
 
 * **Centro** offers the strongest and most reliable combination of gross margin and tourism attractiveness.
 * **Arganzuela** and **Puente de Vallecas** show the highest gross margin potential, although Puente de Vallecas has a smaller reference sample.
 * **Carabanchel** offers a strong balance between gross margin, tourism attractiveness and low acquisition cost.
 * **Barajas** and **Villa de Vallecas** show high gross margin potential but low tourist attractiveness, making them less suitable when tourism demand is a key investment requirement.
 
-### Top Investment Districts
+---
+
+### Top Districts Gross Margin Analysis
+
+**Insight 1 - Puente de Vallecas leads the Gross Margin 75th Percentile**
 
 The six districts with the best overall combination of **gross margin, tourist attractiveness, occupancy and acquisition cost** were selected for deeper analysis.
 
-| District               | Best Performing Configurations                | Median acquisition cost |
-| ---------------------- | --------------------------------------------- | ----------------------: |
-| **Centro**             | Entire home/apt · 4+ guests · 2 bedrooms      |               ~€283,725 |
-| **Arganzuela**         | Entire home/apt · 3–4+ guests · 2 bedrooms    |               ~€237,525 |
-| **Puente de Vallecas** | Entire home/apt · 3–4+ guests · 2–4+ bedrooms |               ~€124,687 |
-| **Carabanchel**        | Entire home/apt · 3–4+ guests · 2 bedrooms    |               ~€139,425 |
-| **Barajas**            | Entire home/apt / Private room                |               ~€183,787 |
-| **Villa de Vallecas**  | Entire home/apt · 3–4+ guests · 2 bedrooms    |               ~€139,387 |
-
-**Puente de Vallecas** stands out for its combination of tourism potential and acquisition cost, while **Centro** provides the most robust evidence due to its much larger sample.
-
-### Gross Margin Potential with best performing configurations
-
-Among the selected districts:
-
-* **Puente de Vallecas:** P75 gross margin of **17.59%**.
-* **Arganzuela:** P75 of **16.14%**.
-* **Centro:** P90 of **17.97%**, supported by **994 reference properties**.
-* **Carabanchel:** strong balance between margin and sample size, with **77 properties**.
-* **Puente de Vallecas:** results should be interpreted cautiously due to its smaller sample of **22 properties**.
-
-Barajas and Villa de Vallecas combine attractive performance metrics with low tourist attractiveness and limited samples, so they are not recommended when tourism appeal is a mandatory investment criterion.
-
 ![Gross margin by top districts](reports/graphics/gross_margin_top_districts.png)
+
+* **Barajas** maintains the highest median gross margin and relatively stable performance, although its profile is less suitable for tourism-focused investment.
+* **Puente de Vallecas** combines a strong median gross margin with a high P75, while also showing some tourism potential.
+* **Arganzuela, Centro and Carabanchel** show similar performance patterns, with **Centro** providing the most reliable evidence due to its much larger reference sample.
+
+<br>
+
+**Insight 2 - Entire Homes Dominate the Highest-Margin Configurations followed by 2 Bedrooms and 4/4+ Guests**
+
+An **isolated property feature ranking by gross margin** was created to identify which property features perform best within each district. The analysis breaks down highest gross margin by **room type, number of bedrooms, beds and guest capacity**.
+
+The summarized table below shows the best property features of the first two districts by Gross Margin.
+
+| District       | Dimension      | Value           | Listings | Occupancy | Gross Margin |
+| -------------- | -------------- | --------------- | -------: | --------: | -----------: |
+| **Arganzuela** | Room type      | Entire home/apt |      471 |       186 |    **8.66%** |
+| **Arganzuela** | Guest capacity | 3 guests        |       59 |       222 |    **9.32%** |
+| **Arganzuela** | Bedrooms       | 2 bedrooms      |      140 |       177 |    **9.06%** |
+| **Arganzuela** | Beds           | 4 beds          |       46 |       185 |   **10.44%** |
+| **Barajas**    | Room type      | Entire home/apt |       41 |       228 |   **10.75%** |
+| **Barajas**    | Guest capacity | 5+ guests       |       14 |       255 |   **11.30%** |
+| **Barajas**    | Bedrooms       | 2 bedrooms      |       14 |       255 |   **13.34%** |
+| **Barajas**    | Beds           | 5+ beds         |        4 |       242 |   **13.18%** |
+
+
+The highest-margin configurations are predominantly **Entire home/apt** properties, although the optimal combination of size and capacity varies by district. Results from configurations with very small samples should be interpreted cautiously.
+
+<br>
+
+**Insight 3 - Puente de Vallecas and Arganzuela Lead in Potential Gross Margin, While Centro Offers the Strongest Evidence**
+
+A deeper gross margin analysis was developed by filtering the top property features on each District. The analysis shows the potential gross margin that districts can actually reach with these configurations.
+
+| District               | Percentile    | Gross Margin | Properties | Total |
+| ---------------------- | ------------- | -----------: | ---------: | ----: |
+| **Centro**             | P75 · Top 25% |   **13.83%** |        251 |   994 |
+| **Centro**             | P90 · Top 10% |   **17.97%** |        100 |   994 |
+| **Arganzuela**         | P75 · Top 25% |   **16.14%** |         21 |    83 |
+| **Arganzuela**         | P90 · Top 10% |   **20.94%** |          9 |    83 |
+| **Puente de Vallecas** | P75 · Top 25% |   **17.59%** |          6 |    22 |
+| **Puente de Vallecas** | P90 · Top 10% |   **22.43%** |          3 |    22 |
+| **Carabanchel**        | P75 · Top 25% |   **14.35%** |         20 |    77 |
+| **Carabanchel**        | P90 · Top 10% |   **18.60%** |          8 |    77 |
+| **Barajas**            | P75 · Top 25% |   **16.72%** |          7 |    27 |
+| **Barajas**            | P90 · Top 10% |   **18.36%** |          4 |    27 |
+| **Villa de Vallecas**  | P75 · Top 25% |   **15.24%** |          2 |     8 |
+| **Villa de Vallecas**  | P90 · Top 10% |   **17.04%** |          1 |     8 |
+
+
+**Puente de Vallecas** shows the strongest gross-margin potential, reaching 22.43% among its top 10% of properties, followed by **Arganzuela** at 20.94% and **Carabanchel** with 18.60%. **Centro** offers a more reliable reference due to its much larger sample, while the higher values in smaller districts should be interpreted with greater caution.
+
+**Barajas and Villa de Vallecas** combine attractive performance metrics with low tourist attractiveness and limited samples, so they are not recommended when tourism appeal is a mandatory investment criterion.
 
 ---
 
 ### Occupancy Analysis
 
-A second analysis evaluates opportunities from a **lower-risk perspective**, focusing on properties capable of maintaining relatively high annual occupancy.
+**Insight 1 - Centro, Puente de Vallecas & Carabanchel Offer the Strongest Occupancy & Gross Margin Combination**
+
+The occuppancy analysis evaluates opportunities from a **lower-risk perspective**, focusing on properties capable of maintaining relatively high annual occupancy.
+
+![Occupancy by district](reports/graphics/occupancy_by_district.png)
 
 The strongest combination of **occupancy and gross margin** is found in **Centro, Puente de Vallecas and Carabanchel**.
 
@@ -146,11 +185,11 @@ Other districts such as **Barajas, Villa de Vallecas and Arganzuela** also show 
 
 The occupancy data has a maximum of **255 days**, reflecting the upper limit present in Airbnb's estimated occupancy variable.
 
-![Occupancy by district](reports/graphics/occupancy_by_district.png)
-
 ---
 
-### Neighbourhood Opportunities
+### Neighbourhood Opportunity Analysis among selected Districts
+
+**Insight 1 - Numancia, San Diego & San Isidro Offers the Strongest Tourism Potential and Low Acquisition Cost Combination**
 
 **Puente de Vallecas and Carabanchel** were selected for a more granular neighbourhood analysis because they combine **low acquisition costs with attractive tourism potential**.
 
@@ -166,9 +205,9 @@ For an investment strategy prioritising **tourism potential and low acquisition 
 
 If acquisition cost is less restrictive, **Comillas, San Isidro and Opañel** become more attractive alternatives.
 
----
+<br>
 
-### High-Performing Property Configurations
+**Insight 2 - Top Configurations Favor 1-Bedroom Entire Homes in Selected Neighbourhoods**
 
 A configuration-level ranking was created to identify specific combinations of neighbourhood, room type and property characteristics.
 
@@ -176,13 +215,13 @@ A minimum of **5 properties per configuration** was required to reduce the impac
 
 The top configurations by gross margin were:
 
-| Neighbourhood     | Property profile                                 | Gross margin | Properties |
-| ----------------- | ------------------------------------------------ | -----------: | ---------: |
-| **Comillas**      | Entire home/apt · 1 bedroom · 4 guests · 2 beds  |   **15.00%** |          8 |
-| **Numancia**      | Entire home/apt · 1 bedroom · 3 guests · 2 beds  |   **14.65%** |          7 |
-| **Puerta Bonita** | Entire home/apt · 1 bedroom · 4 guests · 2 beds  |   **14.53%** |          6 |
-| **Vista Alegre**  | Entire home/apt · 1 bedroom · 4 guests · 2 beds  |   **12.36%** |          6 |
-| **San Diego**     | Entire home/apt · 2 bedrooms · 4 guests · 2 beds |   **11.63%** |         11 |
+| Neighbourhood     | Property profile                                 | Median Gross margin | Properties |
+| ----------------- | ------------------------------------------------ | ------------------: | ---------: |
+| **Comillas**      | Entire home/apt · 1 bedroom · 4 guests · 2 beds  |          **15.00%** |          8 |
+| **Numancia**      | Entire home/apt · 1 bedroom · 3 guests · 2 beds  |          **14.65%** |          7 |
+| **Puerta Bonita** | Entire home/apt · 1 bedroom · 4 guests · 2 beds  |          **14.53%** |          6 |
+| **Vista Alegre**  | Entire home/apt · 1 bedroom · 4 guests · 2 beds  |          **12.36%** |          6 |
+| **San Diego**     | Entire home/apt · 2 bedrooms · 4 guests · 2 beds |          **11.63%** |         11 |
 
 The results reinforce the broader analysis: **Entire home/apt** is present in **18 of the top 20 configurations**, with **1-bedroom properties accommodating around 4 guests** appearing particularly frequently.
 
@@ -190,23 +229,19 @@ Because individual configurations have smaller samples, these results should be 
 
 ---
 
-### Interactive Maps
+## Interactive Maps
 
-The interactive versions of the geographic analysis are available in the `reports/maps/` directory:
+Interactive heatmaps were developed for a better visualization of rental opportunities across Madrid. Different versions of the geographic analysis are available through GitHub Pages:
 
-- [Madrid Gross Margin Heatmap](reports/maps/madrid_gross_margin_heatmap.html)
-- [High-Occupancy Gross Margin Heatmap](reports/maps/madrid_occupancy_heatmap.html)
-- [Puente de Vallecas & Carabanchel Heatmap](reports/maps/puente_vallecas_carabanchel_heatmap.html)
+- [Madrid Opportunities by Gross Margin Heatmap](https://jordipsans.github.io/madrid-tourist-rental-opportunity-analysis/)
+- [Madrid High-Occupancy Opportunities Heatmap](https://jordipsans.github.io/madrid-tourist-rental-opportunity-analysis/)
+- [Madrid Opportunities in Puente de Vallecas & Carabanchel Heatmap](https://jordipsans.github.io/madrid-tourist-rental-opportunity-analysis/)
 
-### Maps & Decision Tool
+## Gross Margin Calculator Tool
 
-Three heatmaps were created to provide a geographic view of the results:
+The calculator estimates the potential gross margin for a specific property configuration.
 
-* Overall **gross margin potential across Madrid**.
-* Gross margin potential for properties with **occupancy at or above the median**.
-* Detailed gross margin distribution across **Puente de Vallecas and Carabanchel**.
-
-A prototype **custom gross margin calculator** is also available in `src/preprocessing.py`. It estimates the potential gross margin for a specific property configuration.
+A prototype **custom gross margin calculator** is also available in `src/preprocessing.py`. The notebook `03_Analisis.ipynb` contains a use example. 
 
 The calculator is an **academic prototype** rather than a production investment tool. A real-world implementation would require additional business inputs and validation from the valuation and investment teams.
 
@@ -216,7 +251,7 @@ The calculator is an **academic prototype** rather than a production investment 
 
 Based on the combination of gross margin, estimated occupancy, acquisition cost, tourist attractiveness and sample size, the analysis suggests the following investment priorities:
 
-1. **Prioritise Entire home/apt properties** with approximately **1–2 bedrooms and capacity for 4+ guests**, as these profiles consistently appear among the strongest-performing configurations.
+1. **Prioritise Entire home/apt listings** with approximately **1–2 bedrooms and capacity for 4+ guests**, as these profiles consistently appear among the strongest-performing configurations.
 
 2. **Focus the initial search on Puente de Vallecas and Carabanchel** when acquisition cost is a key constraint. These districts combine relatively low estimated acquisition costs with attractive gross margin and tourism potential.
 
@@ -230,6 +265,7 @@ Based on the combination of gross margin, estimated occupancy, acquisition cost,
 ---
 
 ## Future Work
+<br>
 
 The current analysis provides a screening framework rather than a complete real-estate investment model. Future work could extend it by:
 
@@ -242,14 +278,14 @@ The current analysis provides a screening framework rather than a complete real-
 
 
 ## Conclusions
+<br>
 
 The analysis points towards a clear investment profile:
 
-> **Entire home/apt properties, generally around 1–2 bedrooms and 4+ guest capacity, located in districts combining reasonable tourist attractiveness with low acquisition costs.**
+> **Entire home/apt properties, generally around 1–2 bedrooms and capacity for 4+ guests, located in districts combining reasonable tourist attractiveness with low acquisition costs.**
 
 Among the analysed areas, **Centro** provides the strongest evidence and tourism profile, while **Puente de Vallecas and Carabanchel** offer particularly attractive opportunities from a **cost-to-potential perspective**.
 
 At neighbourhood level, **Numancia, San Diego and San Isidro** emerge as the most attractive candidates when balancing acquisition cost and tourism potential.
 
 The results also show that **gross margin alone is not sufficient to select an investment area**. Combining gross margin with occupancy, tourist attractiveness, acquisition cost and sample size produces a more robust framework for identifying potential investment opportunities.
-
