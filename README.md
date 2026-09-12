@@ -190,6 +190,14 @@ Because individual configurations have smaller samples, these results should be 
 
 ---
 
+### Interactive Maps
+
+The interactive versions of the geographic analysis are available in the `reports/maps/` directory:
+
+- [Madrid Gross Margin Heatmap](reports/maps/madrid_gross_margin_heatmap.html)
+- [High-Occupancy Gross Margin Heatmap](reports/maps/madrid_occupancy_heatmap.html)
+- [Puente de Vallecas & Carabanchel Heatmap](reports/maps/puente_vallecas_carabanchel_heatmap.html)
+
 ### Maps & Decision Tool
 
 Three heatmaps were created to provide a geographic view of the results:
@@ -216,9 +224,8 @@ Based on the combination of gross margin, estimated occupancy, acquisition cost,
 
 4. **Prioritise Numancia, San Diego and San Isidro** when looking for neighbourhoods that balance tourism attractiveness and acquisition cost.
 
-5. **Use occupancy alongside gross margin** when prioritising properties. High gross margin alone may favour smaller samples or specific configurations with less reliable estimates.
 
-6. **Treat small-sample opportunities as candidates for further validation**, rather than direct investment recommendations. Property-level due diligence and local market validation would be required before acquisition.
+5. **Treat small-sample opportunities as candidates for further validation**, rather than direct investment recommendations. Property-level due diligence and local market validation would be required before acquisition.
 
 ---
 
@@ -232,7 +239,6 @@ The current analysis provides a screening framework rather than a complete real-
 * Incorporating **regulatory and licensing constraints** affecting tourist rentals in Madrid.
 * Validating the most promising configurations against **additional data sources**, such as real-estate listings and transaction data.
 * Developing the **gross margin calculator into an interactive decision-support tool** with additional investment parameters.
-* Applying statistical methods to quantify **uncertainty and confidence around small-sample configurations**.
 
 
 ## Conclusions

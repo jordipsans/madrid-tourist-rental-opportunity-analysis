@@ -14,8 +14,7 @@ __pycache__/
 .notebooks/
 
 # Datos
-datos/
-*.csv
+data/
 *.xlsx
 *.parquet
 *.feather
