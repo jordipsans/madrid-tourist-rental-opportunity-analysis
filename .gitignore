@@ -2,6 +2,9 @@
 desktop.ini
 Thumbs.db
 
+#Instrucciones copilot
+.github/
+
 # Entornos
 .env
 .venv/
@@ -11,20 +14,19 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
-.notebooks/
 
-# Datos
-data/
-*.xlsx
-*.parquet
-*.feather
+# Datos pesados
 *.db
 *.sqlite
 *.duckdb
 
-# Entregables
-entregables/
-reports/
+#Datos de python
+*.pkl
+
+#Data
+data/intermediate/
+
+# Docs
 
 # Archivos de log
 *.log
